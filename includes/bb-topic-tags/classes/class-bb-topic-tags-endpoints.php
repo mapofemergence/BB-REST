@@ -159,12 +159,12 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$params['parent'] = array(
-			'description'       => __( 'Ensure the topics belong to specific forums.', 'bbpress' ),
-			'type'              => 'array',
-			'default'           => array(),
-			'sanitize_callback' => 'wp_parse_id_list',
-		);
+		// $params['parent'] = array(
+		// 	'description'       => __( 'Ensure the topics belong to specific forums.', 'bbpress' ),
+		// 	'type'              => 'array',
+		// 	'default'           => array(),
+		// 	'sanitize_callback' => 'wp_parse_id_list',
+		// );
 
 		return $params;
 	}
@@ -198,10 +198,10 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 		if ( array_key_exists( 'order', $args ) ) {
 			$args['order'] = strtoupper( $args['order'] );
 		}
-		if ( array_key_exists( 'parent', $args ) ) {
-			$args['post_parent__in'] = $args['parent'];
-			unset( $args['forums'] );
-		}
+		// if ( array_key_exists( 'parent', $args ) ) {
+		// 	$args['post_parent__in'] = $args['parent'];
+		// 	unset( $args['parent'] );
+		// }
 		$query_args = array_merge( $query_args, $args);
 
 		$retval = array();

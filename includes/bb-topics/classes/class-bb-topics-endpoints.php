@@ -154,7 +154,7 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		$params['forums'] = array(
+		$params['forum'] = array(
 			'description'       => __( 'Ensure the topics belong to specific forums.', 'bbpress' ),
 			'type'              => 'array',
 			'default'           => array(),
@@ -199,9 +199,9 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 			$args['paged'] = $args['page'];
 			unset( $args['page'] );
 		}
-		if ( array_key_exists( 'forums', $args ) ) {
-			$args['post_parent__in'] = $args['forums'];
-			unset( $args['forums'] );
+		if ( array_key_exists( 'forum', $args ) ) {
+			$args['post_parent__in'] = $args['forum'];
+			unset( $args['forum'] );
 		}
 		$query_args = array_merge( $query_args, $args);
 

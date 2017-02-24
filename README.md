@@ -19,7 +19,7 @@ wp-json/bbpress/v1/stats
 ```
 
 For all of the routes except the statistics, a few parameters to filter the results are already available.
-To start testing the params which are not documented, you can check this as a strating point:
+To start testing the params which are not documented, you can check this as a starting point:
 
 ```bash
 wp-json/bbpress/v1
@@ -45,7 +45,7 @@ An attempt to present this was done with [a topic on bbPress forum](https://bbpr
 
 Here is a summary of that post:
 
-Since there has been some conversation regarding a REST API for bbPress, already, it would be nice to build an interest group around this topic, to begin a proper, more articulated discussion and to coordinate the works if possible.
+Since there has been some conversation regarding a REST API for bbPress, already, it would be nice to build an interest group to begin a proper, articulated discussion and to coordinate the works if possible.
 
 A few (both recent and old) topics discussing this on [bbPress.org](https://bbpress.org):
 * <https://bbpress.org/forums/topic/is-there-an-api-for-bbpress>
