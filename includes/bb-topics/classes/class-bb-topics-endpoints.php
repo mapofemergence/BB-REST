@@ -24,6 +24,7 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 	 * @since 0.1.0
 	 */
 	public function register_routes() {
+
 		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -137,35 +138,6 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 		$params = parent::get_collection_params();
 		$params['context']['default'] = 'view';
 
-		// $params['exclude'] = array(
-		// 	'description'       => __( 'Ensure result set excludes specific IDs.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['include'] = array(
-		// 	'description'       => __( 'Ensure result set includes specific IDs.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['order'] = array(
-		// 	'description'       => __( 'Order sort attribute ascending or descending.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'default'           => 'desc',
-		// 	'enum'              => array( 'asc', 'desc' ),
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['after'] = array(
-		// 	'description'       => __( 'Limit result set to items published after a given ISO8601 compliant date.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'format'            => 'date-time',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
 		$params['per_page'] = array(
 			'description'       => __( 'Maximum number of results returned per result set.', 'bbpress' ),
 			'default'           => 20,
@@ -181,53 +153,6 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 			'sanitize_callback' => 'absint',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-
-		// $params['author'] = array(
-		// 	'description'       => __( 'Limit result set to items created by specific authors.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['status'] = array(
-		// 	'default'           => 'published',
-		// 	'description'       => __( 'Limit result set to items with a specific status.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'enum'              => array( 'published', 'spam' ),
-		// 	'sanitize_callback' => 'sanitize_key',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['primary_id'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific prime assocation.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['secondary_id'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific secondary assocation.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['component'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific BuddyPress component.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'enum'              => array_keys( bp_core_get_components() ),
-		// 	'sanitize_callback' => 'sanitize_key',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['search'] = array(
-		// 	'description'       => __( 'Limit result set to items that match this search query.', 'bbpress' ),
-		// 	'default'           => '',
-		// 	'type'              => 'string',
-		// 	'sanitize_callback' => 'sanitize_text_field',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
 
 		$params['forums'] = array(
 			'description'       => __( 'Ensure the topics belong to specific forums.', 'bbpress' ),
@@ -250,38 +175,9 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 
 		$args = $request->get_params();
-			// 'action'                => $topic->action,
-		// check what the following was doing, as it could be handy elsewhere
-		// $filters = array( 'object', 'action', 'user_id', 'primary_id', 'secondary_id' );
 
-		// foreach ( $filters as $filter ) {
-		// 	if ( isset( $args[ $filter ] ) ) {
-		// 		$args['filter'][ $filter ] = $args[ $filter ];
-		// 	}
-		// }
-
-		// if ( $args['in'] ) {
-		// 	$args['count_total'] = false;
-		// }
-
-
-		// the following might be desirable for performance
-		// if ( ! bbp_has_topics() )
-		//	return;
-
-		// will possibly need to handle topic permissions downstream
-				// // Override certain options for security.
-				// // @TODO: Verify and confirm this show_hidden logic, and check core for other edge cases.
-				// if ( 'groups' === $args['component']  &&
-				// 	(
-				// 		groups_is_user_member( get_current_user_id(), $args['primary_id'] ) ||
-				// 		bp_current_user_can( 'bp_moderate' )
-				// 	)
-				// ) {
-				// 	$args['show_hidden'] = true;
-				// }
-		$posts_query = new WP_Query();
 		// https://codex.wordpress.org/Class_Reference/WP_Query
+		$posts_query = new WP_Query();
 		// https://github.com/WP-API/WP-API/blob/develop/lib/endpoints/class-wp-rest-posts-controller.php
 		$query_args = array(
 			'post_type' => 'topic',
@@ -334,8 +230,9 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Request|WP_Error Plugin object data on success, WP_Error otherwise.
 	 */
 	public function get_item( $request ) {
-		// TODO: query logic. and permissions. and other parameters that might need to be set. etc
-		// $topic = bp_topic_get( array(
+		// @todo: query logic, permissions and other parameters that might need to be set
+		
+		// $topic = bb_topic_get( array(
 		// 		'in' => (int) $request['id'],
 		// ) );
 		
@@ -344,10 +241,10 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 			'post_status' => 'any',
 			'p' => (int) $request['id']
 		);
-		$post_query = new WP_Query();
 		// check if the following is legit or it is required to handle exceptions
+		$post_query = new WP_Query();
 		$topic = $post_query->query( $query_args )[0];
-		// check if the following is better and implications
+		// check if the following is better and which are the implications
 		// $topic =  get_post( $request['id'] );
 
 		$retval = array(
@@ -397,23 +294,21 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $topic, $request, $is_raw = false ) {
 
+		// @todo retrieve additional data with the following:
 		// $meta = get_post_meta( $topic->ID );
 
 		$data = array(
 			'title'            	    => $topic->post_title,
 			'author'                => $topic->post_author,
-			// 'component'             => $topic->component,
 			'content'               => $topic->post_content,
 			'timestamp'             => $topic->post_date, // $topic->post_date_gmt
 			'date'                  => bbp_get_time_since ( $topic->post_date ),
 			'id'                    => $topic->ID,
 			'link'                  => $topic->guid,
-			// the following will require a check if the parent is a forurm, maybe
+			// the following might require a check if the parent is a forurm, maybe
 			// if that's the case it'll be something like the following:
-			// 'parent'                => 'topic_comment' === $topic->type ? $topic->item_id : 0,
+			// 'parent'                => is_forum( $topic->post_parent ) ? $topic->post_parent : 0,
 			'parent'                => $topic->post_parent,
-			// 'primary_id'     		=> $topic->item_id,
-			// 'secondary_id' 			=> $topic->secondary_item_id,
 			// 'status'                => $topic->is_spam ? 'spam' : 'published',
 			// the following might be redundant
 			'type'                  => $topic->post_type,
@@ -426,8 +321,6 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $data );
 		$response->add_links( $this->prepare_links( $topic ) );
 		
-		// var_dump( $response );
-
 		/**
 		 * Filter a topic value returned from the API.
 		 *
@@ -462,7 +355,7 @@ class BB_REST_Topics_Controller extends WP_REST_Controller {
 				'href' => rest_url( '/wp/v2/users/' . $topic->post_author ),
 			),
 			// check what key should be used for the following
-			// check if redundancy is required with the above returned values
+			// and if redundancy is required with the above returned values
 			// $links['up'] = array(
 			// 	'href' => rest_url( $base . $topic->item_id ),
 			// );

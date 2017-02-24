@@ -15,9 +15,7 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 	 */
 	public function __construct() {
 		$this->namespace = bb_rest_namespace() . '/' . bb_rest_version();
-		// var_dump( buddypress()->activity->id );
-		// $this->rest_base = buddypress()->activity->id;
-		$this->rest_base = bbpress()->forum_post_type . 's'; // 'forums'
+		$this->rest_base = 'forums'; // bbpress()->forum_post_type . 's'
 	}
 
 	/**
@@ -71,28 +69,11 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 					'type'        => 'integer',
 				),
 
-				// 'prime_association' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'The ID of some other object primarily associated with this one.', 'bbpress' ),
-				// 	'type'        => 'integer',
-				// ),
-
-				// 'secondary_association' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'The ID of some other object also associated with this one.', 'bbpress' ),
-				// 	'type'        => 'integer',
-				// ),
-
 				'name' => array(
 					'context'     => array( 'view', 'edit' ),
 					'description' => __( 'The name of the forum.', 'bbpress' ),
 					'type'        => 'string',
 				),
-				// 'title' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'HTML title of the object.', 'bbpress' ),
-				// 	'type'        => 'string',
-				// ),
 
 				'author' => array(
 					'context'     => array( 'view', 'edit' ),
@@ -106,21 +87,6 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 					'format'      => 'url',
 					'type'        => 'string',
 				),
-
-				// 'component' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'The bbPress component the object relates to.', 'bbpress' ),
-				// 	'type'        => 'string',
-				// 	'enum'        => array_keys( bp_core_get_components() ),
-				// ),
-
-				// 'type' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'The activity type of the object.', 'bbpress' ),
-				// 	'type'        => 'string',
-				// 	'enum'        => array_keys( bp_activity_get_types() ),
-				// ),
-
 
 				'content' => array(
 					'context'     => array( 'view', 'edit' ),
@@ -152,6 +118,13 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 					'description'  => __( 'The ID of the parent of the object.', 'bbpress' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit' ),
+				),
+
+				'type' => array(
+					'context'     => array( 'view', 'edit' ),
+					'description' => __( 'The activity type of the object.', 'bbpress' ),
+					'type'        => 'string',
+					'enum'        => array_keys( bp_activity_get_types() ),
 				),
 			),
 		);
@@ -277,9 +250,9 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 
 		$args = $request->get_params();
+		// the following is used in BP-REST, check if useful here (as logic)
 		// 'action'                => $topic->action,
 		// $filters = array( 'object', 'action', 'user_id', 'primary_id', 'secondary_id' );
-
 		// foreach ( $filters as $filter ) {
 		// 	if ( isset( $args[ $filter ] ) ) {
 		// 		$args['filter'][ $filter ] = $args[ $filter ];
@@ -334,8 +307,6 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 		$retval = array();
 		$forums = $posts_query->query( $query_args );
 		
-		// var_dump($forums);
-
 		foreach ( $forums as $forum ) {
 			// https://bproots.bbroots.com/reference/functions/bbp_get_forum/
 			// http://hookr.io/functions/bbp_get_forum/
@@ -343,8 +314,6 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 			$retval[] = $this->prepare_response_for_collection(
 				$this->prepare_item_for_response( $forum, $args )
 			);
-
-			// break;
 		}
 
 		// https://developer.wordpress.org/reference/functions/rest_ensure_response/
@@ -360,8 +329,8 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Request|WP_Error Plugin object data on success, WP_Error otherwise.
 	 */
 	public function get_item( $request ) {
-		// TODO: query logic. and permissions. and other parameters that might need to be set. etc
-		// $forum = bp_forum_get( array(
+		// TODO: query logi, permissions and other parameters that might need to be set.
+		// $forum = bb_forum_get( array(
 		// 		'in' => (int) $request['id'],
 		// ) );
 		$query_args = array(
@@ -405,7 +374,7 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 	 * @return WP_Error|bool
 	 */
 	public function get_items_permissions_check( $request ) {
-		// TODO: handle private forums etc
+		// @todo: handle private forums etc
 		return apply_filters( 'bb_rest_activity_items_premission', true, $request );
 	}
 
@@ -428,10 +397,8 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 		$data = array(
 			'name'            	    => $forum->post_title,
 			'author'                => $forum->post_author,
-			// 'component'             => $forum->component,
 			'content'               => $forum->post_content,
 			'timestamp'             => $forum->post_date, // $forum->post_date_gmt
-			// 'date'                  => $forum->post_date,
 			'date'                  => bbp_get_time_since ( $forum->post_date ),
 			'id'                    => $forum->ID,
 			'link'                  => $forum->guid,
@@ -439,8 +406,6 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 			// if that's the case it'll be something like the following:
 			// 'parent'                => 'forum_comment' === $forum->type ? $forum->item_id : 0,
 			'parent'                => $forum->post_parent,
-			// 'primary_id'     		=> $forum->item_id,
-			// 'secondary_id' 			=> $forum->secondary_item_id,
 			'status'                => $forum->post_status,
 			// 'status'                => $forum->is_spam ? 'spam' : 'published',
 			// the following might be redundant
@@ -488,12 +453,6 @@ class BB_REST_Forums_Controller extends WP_REST_Controller {
 				'href' => rest_url( '/wp/v2/users/' . $forum->post_author ),
 			),
 		);
-
-		// if ( 'forum_comment' === $forum->type ) {
-		// 	$links['up'] = array(
-		// 		'href' => rest_url( $base . $forum->item_id ),
-		// 	);
-		// }
 
 		return $links;
 	}

@@ -39,12 +39,9 @@ class BB_REST_Core_Controller extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 		
-		// var_dump( bp_core_get_directory_page_ids() ) . '<br/>';
-		// var_dump( buddypress()->active_components ) . '<br/>';
 		$core = array(
 			'version' => bbpress()->version
-			// 'active_components'  => bbpress()->active_components,
-			// 'component_page_ids' => bp_core_get_directory_page_ids(),
+			//@todo check what other core info to return
 		);
 		$core = apply_filters( 'core_api_data_filter', $core );
 
@@ -89,16 +86,6 @@ class BB_REST_Core_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array( 'view' ),
 				),
-				// 'active_components' => array(
-				// 	'description' => 'Active bbPress compontents.',
-				// 	'type'        => 'array',
-				// 	'context'     => array( 'view' ),
-				// ),
-				// 'component_page_ids' => array(
-				// 	'description' => 'Component page ids.',
-				// 	'type'        => 'array',
-				// 	'context'     => array( 'view' ),
-				// ),
 			),
 		);
 		return $this->add_additional_fields_schema( $schema );

@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Topics endpoints.
+ * Topic Tags endpoints.
  *
  * @since 0.1.0
  */
@@ -56,18 +56,8 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_schema() {
 
-		// // http://wordpress.stackexchange.com/questions/37721/whats-the-difference-between-term-id-and-term-taxonomy-id
-		// 'id'			'term_id'
-		// 				'term_taxonomy_id'
-		// // 'taxonomy'		    string(9) "topic-tag"
-		// // http://wordpress.stackexchange.com/questions/23169/what-is-term-group-for-order-by-in-get-terms
-		// // 'term_group'		    int(0)
-		// 'slug'		    string(11) "buoneprassi"
-		// 'name'		    string(11) "buonePrassi"
-		// // 'description'		    string(0) ""
-		// 'count'		    int(1)
-		// // 'parent'		int(0)
-		// // 'filter'		    string(3) "raw"
+		// http://wordpress.stackexchange.com/questions/37721/whats-the-difference-between-term-id-and-term-taxonomy-id
+		// http://wordpress.stackexchange.com/questions/23169/what-is-term-group-for-order-by-in-get-terms
 
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
@@ -114,13 +104,6 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 					'type'        => 'integer',
 				),
 
-				// 'status' => array(
-				// 	'context'     => array( 'view', 'edit' ),
-				// 	'description' => __( 'Whether the object has been marked as spam or not.', 'bbpress' ),
-				// 	'type'        => 'string',
-				// 	'enum'        => array( 'published', 'spam' ),
-				// ),
-
 				// 'parent' => array(
 				// 	'description'  => __( 'The ID of the parent of the object.', 'bbpress' ),
 				// 	'type'         => 'integer',
@@ -144,20 +127,6 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 		$params = parent::get_collection_params();
 		$params['context']['default'] = 'view';
 
-		// $params['exclude'] = array(
-		// 	'description'       => __( 'Ensure result set excludes specific IDs.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['include'] = array(
-		// 	'description'       => __( 'Ensure result set includes specific IDs.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
 		$params['order'] = array(
 			'description'       => __( 'Order sort attribute ascending or descending.', 'bbpress' ),
 			'type'              => 'string',
@@ -173,14 +142,6 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 			'enum'              => array( 'count', 'id', 'name', 'slug' ), // date, relevance, id, include, title, slug
 			'validate_callback' => 'rest_validate_request_arg',
 		);
-
-
-		// $params['after'] = array(
-		// 	'description'       => __( 'Limit result set to items published after a given ISO8601 compliant date.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'format'            => 'date-time',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
 
 		$params['per_page'] = array(
 			'description'       => __( 'Maximum number of results returned per result set.', 'bbpress' ),
@@ -198,54 +159,7 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		// $params['author'] = array(
-		// 	'description'       => __( 'Limit result set to items created by specific authors.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['status'] = array(
-		// 	'default'           => 'published',
-		// 	'description'       => __( 'Limit result set to items with a specific status.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'enum'              => array( 'published', 'spam' ),
-		// 	'sanitize_callback' => 'sanitize_key',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['primary_id'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific prime assocation.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['secondary_id'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific secondary assocation.', 'bbpress' ),
-		// 	'type'              => 'array',
-		// 	'default'           => array(),
-		// 	'sanitize_callback' => 'wp_parse_id_list',
-		// );
-
-		// $params['component'] = array(
-		// 	'description'       => __( 'Limit result set to items with a specific BuddyPress component.', 'bbpress' ),
-		// 	'type'              => 'string',
-		// 	'enum'              => array_keys( bp_core_get_components() ),
-		// 	'sanitize_callback' => 'sanitize_key',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		// $params['search'] = array(
-		// 	'description'       => __( 'Limit result set to items that match this search query.', 'bbpress' ),
-		// 	'default'           => '',
-		// 	'type'              => 'string',
-		// 	'sanitize_callback' => 'sanitize_text_field',
-		// 	'validate_callback' => 'rest_validate_request_arg',
-		// );
-
-		$params['forums'] = array(
+		$params['parent'] = array(
 			'description'       => __( 'Ensure the topics belong to specific forums.', 'bbpress' ),
 			'type'              => 'array',
 			'default'           => array(),
@@ -266,60 +180,12 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 
 		$args = $request->get_params();
-			// 'action'                => $topic->action,
-		// check what the following was doing, as it could be handy elsewhere
-		// $filters = array( 'object', 'action', 'user_id', 'primary_id', 'secondary_id' );
-
-		// foreach ( $filters as $filter ) {
-		// 	if ( isset( $args[ $filter ] ) ) {
-		// 		$args['filter'][ $filter ] = $args[ $filter ];
-		// 	}
-		// }
-
-		// if ( $args['in'] ) {
-		// 	$args['count_total'] = false;
-		// }
-
-
-		// the following might be desirable for performance
-		// if ( ! bbp_has_topics() )
-		//	return;
-
-		// will possibly need to handle topic permissions downstream
-				// // Override certain options for security.
-				// // @TODO: Verify and confirm this show_hidden logic, and check core for other edge cases.
-				// if ( 'groups' === $args['component']  &&
-				// 	(
-				// 		groups_is_user_member( get_current_user_id(), $args['primary_id'] ) ||
-				// 		bp_current_user_can( 'bp_moderate' )
-				// 	)
-				// ) {
-				// 	$args['show_hidden'] = true;
-				// }
-		
-		// $posts_query = new WP_Query();
-		// // https://codex.wordpress.org/Class_Reference/WP_Query
-		// // https://github.com/WP-API/WP-API/blob/develop/lib/endpoints/class-wp-rest-posts-controller.php
-		// $query_args = array(
-		// 	'post_type' => 'topic',
-		// 	'post_status' => 'any',
-		// 	// 'tax_query' => array(
-		// 	// 	array(
-		// 	// 		'taxonomy' => 'people',
-		// 	// 		'field'    => 'slug',
-		// 	// 		'terms'    => 'bob',
-		// 	// 	),
-		// 	// ),
-		// );
-
 
 		$query_args = array(
-			// 'orderby'  => 'count',
-			// 'order'    => 'DESC',
 			'taxonomy' => 'topic-tag',
 		);
 		
-		// note: teh order here is important as we need the "per_page" argument, befor unsetting it
+		// note: the order here is important as we need the "per_page" argument, before unsetting it
 		if ( array_key_exists( 'page', $args ) ) {
 			$args['offset'] = $args['page'] *  $args['per_page'];
 			unset( $args['page'] );
@@ -328,31 +194,22 @@ class BB_REST_Topic_Tags_Controller extends WP_REST_Controller {
 			$args['number'] = $args['per_page'];
 			unset( $args['per_page'] );
 		}
+		// https://developer.wordpress.org/reference/functions/get_terms/
 		if ( array_key_exists( 'order', $args ) ) {
 			$args['order'] = strtoupper( $args['order'] );
 		}
-		// if ( array_key_exists( 'forums', $args ) ) {
-		// 	$args['post_parent__in'] = $args['forums'];
-		// 	unset( $args['forums'] );
-		// }
+		if ( array_key_exists( 'parent', $args ) ) {
+			$args['post_parent__in'] = $args['parent'];
+			unset( $args['forums'] );
+		}
 		$query_args = array_merge( $query_args, $args);
 
 		$retval = array();
-		// https://developer.wordpress.org/reference/functions/get_terms/
-		// order by (defaults to 'name')
-		// 'name', 'slug', 'term_group', 'term_id', 'id', 'description', 'count',
-		// 'include' (to match the 'order' of the 'include' param), 'meta_value',
-		// 'meta_value_num' (the value of meta_key, the array keys of meta_query,
-		// 'none' to omit the ORDER BY clause
-		$tags = get_terms( $query_args );
-		// consider replacing the above call with a lower level query: WP_Meta_Query
+		// @todo consider replacing the following call with a lower level query:
 		// https://codex.wordpress.org/Class_Reference/WP_Meta_Query
-		// var_dump( $tags );
+		$tags = get_terms( $query_args );
 
 		foreach ( $tags as $tag ) {
-			// https://bproots.bbroots.com/reference/functions/bbp_get_topic/
-			// http://hookr.io/functions/bbp_get_topic/
-			// $topic = bbp_get_topic( $topic );
 			$retval[] = $this->prepare_response_for_collection(
 				$this->prepare_item_for_response( $tag, $args )
 			);

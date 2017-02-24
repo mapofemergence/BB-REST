@@ -13,6 +13,9 @@
  */
 
 /**
+ * The following is just a placeholder; licensing should be discussed
+ * with the bbPress team, to see what are the most desirable options
+ *
  * Copyright (c) 2017 bbPress (email: info@bbpress.org)
  *
  * This program is free software; you can redistribute it and/or modify
@@ -74,70 +77,33 @@ function bb_rest_api_endpoints() {
 	$controller = new BB_REST_Core_Controller();
 	$controller->register_routes();
 
-	// if ( bb_is_active( 'forums' ) ) {
-		require_once( dirname( __FILE__ ) . '/includes/bb-forums/classes/class-bb-forums-endpoints.php' );
-		$controller = new BB_REST_Forums_Controller();
-		$controller->register_routes();
-	// }
+	require_once( dirname( __FILE__ ) . '/includes/bb-forums/classes/class-bb-forums-endpoints.php' );
+	$controller = new BB_REST_Forums_Controller();
+	$controller->register_routes();
+	// the following is a promemo to see what (if) filters might be needed
+	// need to check BP-REST and figure out how filters are used there
+	// require_once( dirname( __FILE__ ) . '/includes/bb-forums/bb-forums-filters.php' );
 
-	// if ( bb_is_active( 'topics' ) ) {
-		require_once( dirname( __FILE__ ) . '/includes/bb-topics/classes/class-bb-topics-endpoints.php' );
-		$controller = new BB_REST_Topics_Controller();
-		$controller->register_routes();
-
-		// require_once( dirname( __FILE__ ) . '/includes/bb-topics/bb-topics-filters.php' );
-	// }
-
-	// if ( bb_is_active( 'replies' ) ) {
-		require_once( dirname( __FILE__ ) . '/includes/bb-replies/classes/class-bb-replies-endpoints.php' );
-		$controller = new BB_REST_Replies_Controller();
-		$controller->register_routes();
-	// }
-
-	require_once( dirname( __FILE__ ) . '/includes/bb-statistics/classes/class-bb-statistics-endpoints.php' );
-	$controller = new BB_REST_Statistics_Controller();
+	require_once( dirname( __FILE__ ) . '/includes/bb-topics/classes/class-bb-topics-endpoints.php' );
+	$controller = new BB_REST_Topics_Controller();
+	$controller->register_routes();
+	
+	require_once( dirname( __FILE__ ) . '/includes/bb-replies/classes/class-bb-replies-endpoints.php' );
+	$controller = new BB_REST_Replies_Controller();
 	$controller->register_routes();
 
 	require_once( dirname( __FILE__ ) . '/includes/bb-topic-tags/classes/class-bb-topic-tags-endpoints.php' );
 	$controller = new BB_REST_Topic_Tags_Controller();
 	$controller->register_routes();
 
-	// if ( bb_is_active( 'xprofile' ) ) {
-	// 	require_once( dirname( __FILE__ ) . '/includes/bb-xprofile/classes/class-bb-xprofile-groups-endpoints.php' );
-	// 	$controller = new BB_REST_XProfile_Groups_Controller();
-	// 	$controller->register_routes();
-
-	// 	require_once( dirname( __FILE__ ) . '/includes/bb-xprofile/classes/class-bb-xprofile-fields-endpoints.php' );
-	// 	$controller = new BB_REST_XProfile_Fields_Controller();
-	// 	$controller->register_routes();
-	// }
+	require_once( dirname( __FILE__ ) . '/includes/bb-statistics/classes/class-bb-statistics-endpoints.php' );
+	$controller = new BB_REST_Statistics_Controller();
+	$controller->register_routes();
 
 }
 
-
-// temporary solution to get forums via WP-REST API
-// will need to be replaced by direct calls to bbPress, if possible
-// add_filter( 'bbp_register_forum_post_type', 'api_expose_forum' );
-// function api_expose_forum( $vars ){
-// 	$vars['show_in_rest'] = true;
-// 	$vars['rest_base'] = 'forums';
-// 	return $vars;
-// }
-// add_filter( 'bbp_register_topic_post_type', 'api_expose_topic' );
-// function api_expose_topic( $vars ){
-// 	$vars['show_in_rest'] = true;
-// 	$vars['rest_base'] = 'topics';
-// 	return $vars;
-// }
-// add_filter( 'bbp_register_reply_post_type', 'api_expose_reply' );
-// function api_expose_reply( $vars ){
-// 	$vars['show_in_rest'] = true;
-// 	$vars['rest_base'] = 'replies';
-// 	return $vars;
-// }
-
 // http://wordpress.stackexchange.com/questions/240459/wordpress-rest-api-call-to-member-function-register-route
-// http://stv.whtly.com/2011/09/03/forcing-a-wordpress-plugin-to-be-loaded-before-all-other-plugins/
 add_action( 'rest_api_init', 'bb_rest_api_endpoints' );
-// the following might be implemented in the bbPress plugin to expose the hook in the right place
+// the following might be required in bbPress core, to expose the hook in the right place
+// will need to check when the above is resolved
 // add_action( 'bb_rest_api_init', 'bb_rest_api_endpoints' );
