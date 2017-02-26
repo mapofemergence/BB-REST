@@ -25,9 +25,9 @@ To start testing the params which are not documented, you can check this as a st
 wp-json/bbpress/v1
 ```
 
-Or refer to the temporary, W.I.P. documentation available at <https://mapofemergence.github.io/BB-REST>
+or refer to the temporary, W.I.P. documentation available at <https://mapofemergence.github.io/BB-REST>
 
-> WARNING: not all of the parameters might work on each endpoints, as some of them are still being implemented
+> WARNING: not all of the reported parameters might work on all endpoints, as some of them are still being implemented (or still to be removed from the inherited ones)
 
 ## License
 
