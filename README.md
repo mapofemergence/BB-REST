@@ -34,7 +34,7 @@ A lincense is still to be chosen; the code is currently published for discussion
 The code in this repository is (more or less heavily) based on the following references, both as a learning resource and for directly sourcing the code.
 Final licensing will need to keep this in mind. 
 * [BB-API](https://github.com/thenbrent/BB-API)
-* [BP-REST](https://github.com/buddypress/BP-REST) (and [its forks](https://github.com/modemlooper/BP-REST/network)
+* [BP-REST](https://github.com/buddypress/BP-REST) (and [its forks](https://github.com/modemlooper/BP-REST/network))
 * [bbP API](https://wordpress.org/plugins/bbp-api) ([GitHub Repository](https://github.com/ePascalC/bbp-API))
 * [class.jetpack-bbpress-json-api-compat.php](https://plugins.trac.wordpress.org/browser/jetpack/trunk/class.jetpack-bbpress-json-api-compat.php)
 
