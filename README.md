@@ -26,9 +26,8 @@ wp-json/bbpress/v1
 ```
 
 Or refer to the temporary, W.I.P. documentation available at <https://mapofemergence.github.io/BB-REST>
-```diff
-- WARNING: not all of the parameters might work on each endpoints, as some of them are still being implemented
-```
+
+> WARNING: not all of the parameters might work on each endpoints, as some of them are still being implemented
 
 ## License
 
@@ -59,7 +58,7 @@ A few (both recent and old) topics discussing this on [bbPress.org](https://bbpr
 * <https://bbpress.org/forums/topic/query-topics-with-wp-rest-api>
 * <https://bbpress.org/forums/topic/is-there-a-rest-api>
 
-This is quite a critical task, for a variety of reasons:
+Things to consider, when approaching such a critical task:
 * schemas, routes and endpoints should be carefully chosen to minimize backward-compatibility issues, as the API is developed
 * when dealing with APIs, performance is paramount; therefore, the logic to prepare the REST responses should be solid and use the right bbPress calls
 * ideally, the development of such an API should be tightly linked to the development of the bbPress plugin itself and, ideally, become part of the core at some point
