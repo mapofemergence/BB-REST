@@ -1,0 +1,83 @@
+{
+	"namespace":"bbpress/v1",
+	"_links": {
+		"up": [
+			{ "href":"http://127.0.0.1/wordpress/wp-json/" }
+		]
+	},
+	"routes": {
+		"/bbpress/v1": {
+			"namespace":"bbpress/v1",
+			"methods":["GET"],
+			"endpoints": [
+				{
+					"methods":["GET"],
+					"args": {
+						"namespace": {
+							"required":false,
+							"default":"bbpress/v1"
+						},
+						"context": {
+							"required":false,
+							"default":"view"
+						}
+					}
+				}
+			],
+			"_links": {
+				"self":"http://127.0.0.1/wordpress/wp-json/bbpress/v1"
+			}
+		},
+		"/bbpress/v1/core": {
+			"namespace":"bbpress/v1",
+			"methods":["GET"],
+			"endpoints": [
+				{
+					"methods":["GET"],
+					"args":[]
+				}
+			],
+			"_links": {
+				"self":"http://127.0.0.1/wordpress/wp-json/bbpress/v1/core"
+			}
+		},
+		"/bbpress/v1/forums": {
+			"namespace":"bbpress/v1",
+			"methods":["GET"],
+			"endpoints": [
+				{
+					"methods":["GET"],
+					"args": {
+						"context": {
+							"required":false,
+							"default":"view",
+							"enum":["view","edit"],
+							"description":"Scope under which the request is made; determines fields present in response.",
+							"type":"string"
+						},
+						"page": {
+							"required":false,
+							"default":1,
+							"description":"Offset the result set by a specific number of pages of results.",
+							"type":"integer"
+						},
+						"per_page": {
+							"required":false,
+							"default":20,
+							"description":"Maximum number of results returned per result set.",
+							"type":"integer"
+						},
+						"search": {
+							"required":false,
+							"description":"Limit results to those matching a string.",
+							"type":"string"
+						}
+					}
+				}
+			],
+			"_links": {
+				"self":"http://127.0.0.1/wordpress/wp-json/bbpress/v1/forums"
+			}
+		}
+	}
+}

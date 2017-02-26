@@ -100,6 +100,11 @@ function bb_rest_api_endpoints() {
 	$controller = new BB_REST_Statistics_Controller();
 	$controller->register_routes();
 
+	require_once( dirname( __FILE__ ) . '/includes/bb-swagger/classes/class-bb-swagger-endpoints.php' );
+	$controller = new BB_REST_Swagger_Controller();
+	$controller->register_routes();
+
+	do_action( 'bb_rest_api_init' );
 }
 
 // http://wordpress.stackexchange.com/questions/240459/wordpress-rest-api-call-to-member-function-register-route
