@@ -151,7 +151,10 @@ class BB_REST_Statistics_Controller extends WP_REST_Controller {
 
 		$params = parent::get_collection_params();
 		$params['context']['default'] = 'view';
-
+		unset( $params['page'] );
+		unset( $params['per_page'] );
+		unset( $params['search'] );
+		
 		// $params['exclude'] = array(
 		// 	'description'       => __( 'Ensure result set excludes specific IDs.', 'bbpress' ),
 		// 	'type'              => 'array',
